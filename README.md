@@ -3,22 +3,26 @@ Bu proje, hastaneler ve klinikler için geliştirilmiş basit ama etkili bir web
 
 Özellikler
 Ana Giriş Sayfası: Kullanıcıların (Sekreter, Doktor, Hastane Ekranı) sisteme kolayca erişebilmesi için tek bir başlangıç noktası. Her ekran ayrı bir tarayıcı sekmesinde açılır.
+
 Sekreter Ekranı:
-Yeni hastaları sisteme kaydetme.
-Hasta adı, TC Kimlik numarası ve öncelik seviyesi (Normal, Acil, Öncelikli) girişi.
+
+Yeni hastaları sisteme kaydeder.
+Hasta adı, TC Kimlik numarası ve öncelik seviyesi (Normal, Acil, Öncelikli) girişi sağlar.
 Kaydedilen hastalar anında doktor ve hastane ekranlarına yansır.
 Doktor Ekranı:
-Sırada bekleyen hastaları öncelik sırasına (Acil > Öncelikli > Normal) göre listeleyen dinamik ekran. Aynı öncelikteki hastalar kayıt zamanına göre sıralanır.
-"Sonraki Hastayı Çağır" butonu ile sıradaki ilk hastayı otomatik çağırma.
-Her hastanın yanında bulunan "Çağır" butonu ile belirli bir hastayı manuel olarak çağırma yeteneği.
+
+Sırada bekleyen hastaları öncelik sırasına (Acil > Öncelikli > Normal) göre listeleyen dinamik bir ekrandır. Aynı öncelikteki hastalar kayıt zamanına göre sıralanır.
+"Sonraki Hastayı Çağır" butonu ile sıradaki ilk hastayı otomatik çağırır.
+Her hastanın yanında bulunan "Çağır" butonu ile belirli bir hastayı manuel olarak çağırma yeteneği sunar.
 Hasta çağrıldığında liste otomatik olarak güncellenir.
 Hastane Ekranı:
-Hastanenin bekleme alanlarında gösterilmek üzere tasarlanmış büyük ekran.
-Sol tarafta çağrılan hastalar listesi, sağ tarafta ise sırada bekleyen hastalar listesi.
+
+Hastanenin bekleme alanlarında gösterilmek üzere tasarlanmış büyük bir ekrandır.
+Sol tarafta çağrılan hastalar listesi, sağ tarafta ise sırada bekleyen hastalar listesi bulunur.
 Yeni bir hasta çağrıldığında, ekranın üst kısmında hastanın adının belirip 3 saniye boyunca yanıp sönen bir anons görünür.
 Çağrılan hastalar listesindeki en son hasta bilgisi de yanıp sönen efekt ile vurgulanır.
 Tüm ekranlar arasında gerçek zamanlı senkronizasyon (localStorage ve storage olayı ile) sayesinde F5 atmaya gerek kalmadan güncellemeler anında yansır.
 Kullanılan Teknolojiler
-HTML5: Uygulamanın yapısal iskeleti.
-CSS3: Uygulamanın görsel tasarımı ve animasyonları.
-JavaScript (ES6+): Dinamik etkileşimler, localStorage yönetimi ve ekranlar arası senkronizasyon.
+HTML5: Uygulamanın yapısal iskeletini oluşturur.
+CSS3: Uygulamanın görsel tasarımını ve animasyonlarını sağlar.
+JavaScript (ES6+): Dinamik etkileşimleri, localStorage yönetimini ve ekranlar arası senkronizasyonu yönetir.
