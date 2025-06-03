@@ -1,0 +1,394 @@
+/* Genel Stil Kuralları */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Daha modern bir font */
+    background-color: #e0f2f7; /* Açık mavi tonu */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* İçeriği üste hizala */
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px; /* Kenarlardan boşluk */
+    box-sizing: border-box; /* Padding'in genişliğe dahil olması */
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px; /* Daha yuvarlak köşeler */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Daha belirgin gölge */
+    width: 100%;
+    max-width: 550px; /* Varsayılan genişlik */
+    text-align: center;
+    box-sizing: border-box;
+}
+
+h1, h2 {
+    color: #2c3e50; /* Koyu gri/mavi */
+    margin-bottom: 25px;
+    font-weight: 600; /* Biraz daha kalın */
+}
+
+/* Form Grupları */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #34495e;
+    font-size: 1.05em;
+}
+
+input[type="text"],
+select {
+    width: calc(100% - 24px); /* Padding'i hesaba kat */
+    padding: 12px;
+    border: 1px solid #c0d9e7; /* Açık mavi çerçeve */
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #f8fcff; /* Hafif açık arka plan */
+}
+
+input[type="text"]:focus,
+select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    outline: none;
+}
+
+/* Butonlar */
+button {
+    background-color: #007bff; /* Mavi */
+    color: white;
+    padding: 14px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px); /* Hafif yukarı kalkma efekti */
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.message {
+    margin-top: 25px;
+    font-weight: bold;
+    font-size: 1.1em;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Doktor Ekranı Stilleri */
+.current-patient {
+    background-color: #e6f7ff; /* Çok açık mavi */
+    border: 1px solid #b3e0ff; /* Açık mavi çerçeve */
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.current-patient h2 {
+    color: #007bff;
+    margin-top: 0;
+    font-size: 1.5em;
+}
+
+.current-patient p {
+    font-size: 26px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+}
+
+.patient-list ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.patient-list li {
+    background-color: #f0f8ff; /* Çok açık mavi */
+    border: 1px solid #d9edf7;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    font-size: 1.05em;
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.patient-list li:hover {
+    background-color: #e0f2ff;
+}
+
+.patient-name {
+    font-weight: bold;
+    color: #2980b9;
+}
+
+.tc-info {
+    font-size: 0.85em;
+    color: #7f8c8d;
+    margin-left: 10px;
+}
+
+.priority-info {
+    font-size: 0.85em;
+    font-weight: bold;
+    color: #e67e22; /* Turuncu tonu */
+    margin-left: auto; /* Sağa hizala */
+    padding: 3px 8px;
+    background-color: rgba(230, 126, 34, 0.1);
+    border-radius: 4px;
+}
+
+.call-specific-patient {
+    background-color: #28a745; /* Yeşil */
+    font-size: 0.9em;
+    padding: 8px 15px;
+    margin-top: 0; /* Butonun li içindeki dikey hizalamasını sıfırla */
+    margin-left: 15px;
+    box-shadow: none;
+}
+
+.call-specific-patient:hover {
+    background-color: #218838;
+    transform: none;
+}
+
+/* Hastane Ekranı Stilleri */
+.hospital-display {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 1000px; /* Daha geniş hastane ekranı */
+    margin-top: 20px;
+    gap: 25px; /* Sütunlar arasına boşluk */
+    align-items: flex-start; /* İçeriği üste hizala */
+}
+
+.hospital-display .container { /* Hastane ekranındaki sütunlar için ayrı bir container */
+    max-width: none; /* Kapsayıcının genişlik kısıtlamasını kaldır */
+    flex: 1; /* Her iki sütun eşit genişlikte olsun */
+    min-height: 500px; /* En az yükseklik */
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 25px;
+}
+
+.hospital-display .container h2 {
+    border-bottom: 2px solid #ecf0f1;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+}
+
+.hospital-display ul {
+    list-style: none;
+    padding: 0;
+    flex-grow: 1;
+    overflow-y: auto;
+    border: 1px solid #ecf0f1; /* Liste için çerçeve */
+    border-radius: 8px;
+    background-color: #fdfefe;
+    padding: 10px;
+}
+
+.hospital-display li {
+    padding: 15px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    font-size: 1.2em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.called-patient-name {
+    font-weight: bold;
+    color: #007bff;
+    font-size: 1.3em;
+}
+.waiting-patient-name {
+    font-weight: bold;
+    color: #28a745;
+    font-size: 1.2em;
+}
+.hospital-display .tc-info {
+    font-size: 1em;
+    color: #7f8c8d;
+}
+
+/* Ana Menü Stilleri */
+.main-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.main-menu button {
+    width: 300px;
+    padding: 18px 30px;
+    font-size: 22px;
+    font-weight: 600;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.main-menu button:nth-child(1) { /* Sekreter */
+    background-color: #007bff;
+}
+.main-menu button:nth-child(1):hover {
+    background-color: #0056b3;
+}
+
+.main-menu button:nth-child(2) { /* Doktor */
+    background-color: #dc3545;
+}
+.main-menu button:nth-child(2):hover {
+    background-color: #c82333;
+}
+
+.main-menu button:nth-child(3) { /* Hastane */
+    background-color: #ffc107;
+    color: #333; /* Sarı tonu için koyu yazı rengi */
+}
+.main-menu button:nth-child(3):hover {
+    background-color: #e0a800;
+}
+
+/* ANONS VE YANIP SÖNME EFEKTİ İÇİN CSS */
+.announcement-area {
+    background-color: #fff3cd; /* Açık sarı arka plan */
+    border: 1px solid #ffeeba;
+    color: #856404; /* Koyu sarı metin */
+    padding: 15px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    font-size: 2.2em; /* Büyük font */
+    font-weight: bold;
+    text-align: center;
+    opacity: 0; /* Başlangıçta görünmez */
+    transition: opacity 0.5s ease-in-out; /* Yumuşak geçiş */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    order: -1; /* Hastane ekranında en üste çıksın */
+}
+
+.announcement-area.show {
+    opacity: 1; /* Görünür olduğunda */
+}
+
+.announcement-name {
+    color: #007bff; /* Hastanın adını vurgula */
+}
+
+.blinking-text {
+    animation: blink-opacity 1s step-start 0s infinite; /* Metin için yanıp sönme */
+}
+
+@keyframes blink-opacity {
+    50% {
+        opacity: 0;
+    }
+}
+
+.blinking-background {
+    animation: blink-background 1s step-start 0s infinite; /* Arka plan için yanıp sönme */
+}
+
+@keyframes blink-background {
+    50% {
+        background-color: #fdfefe; /* Normal arka plana döner */
+    }
+}
+
+#calledPatientsList li.highlight-blinking-li {
+    animation: highlight-blink 1s step-start 0s infinite; /* Liste öğesi için yanıp sönme */
+    font-size: 1.4em; /* Daha büyük font */
+    font-weight: bold;
+    color: #dc3545; /* Kırmızı metin */
+}
+#calledPatientsList li.highlight-blinking-li .called-patient-name {
+    color: #dc3545; /* Kırmızı metin */
+}
+/* Genel highlight animasyonu, listedeki elemanlar için de kullanılabilir */
+@keyframes highlight-blink {
+    50% {
+        background-color: #fff0f0; /* Açık kırmızımsı */
+    }
+}
+
+
+/* Responsive Düzenlemeler */
+@media (max-width: 768px) {
+    .hospital-display {
+        flex-direction: column;
+        align-items: center;
+    }
+    .hospital-display .container {
+        width: 95%;
+        max-width: 450px;
+        margin-bottom: 20px;
+    }
+    .main-menu button {
+        width: 90%;
+        max-width: 280px;
+        font-size: 18px;
+        padding: 15px 20px;
+    }
+    .container {
+        padding: 20px;
+    }
+    .announcement-area {
+        font-size: 1.5em; /* Daha küçük ekranlarda daha küçük font */
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.8em;
+    }
+    h2 {
+        font-size: 1.3em;
+    }
+    .main-menu button,
+    button {
+        font-size: 16px;
+        padding: 12px 18px;
+    }
+    input[type="text"], select {
+        padding: 10px;
+        font-size: 15px;
+    }
+    .patient-list li,
+    .hospital-display li {
+        font-size: 1em;
+        padding: 10px;
+    }
+    .announcement-area {
+        font-size: 1.2em;
+    }
+}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doktor Ekranı</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <h1>Sıradaki Hastalar</h1>
+  <div class="current-patient">
+    <h2>Şu Anki Hasta:</h2>
+    <p id="currentPatientName">Bekleyen hasta yok.</p>
+    <button id="callNextPatient">Sonraki Hastayı Çağır</button>
+  </div>
+
+  <div class="patient-list">
+    <h2>Sırada Bekleyenler:</h2>
+    <ul id="waitingList">
+    </ul>
+  </div>
+</div>
+
+<script>
+  const waitingList = document.getElementById('waitingList');
+  const currentPatientName = document.getElementById('currentPatientName');
+  const callNextPatientButton = document.getElementById('callNextPatient');
+
+  let patients = [];
+
+  function updateWaitingList() {
+    patients = JSON.parse(localStorage.getItem('siradakiHastalar')) || [];
+
+    // ÖNCELİK SIRALAMASI MANTIĞI
+    const oncelikSiralama = {
+      'acil': 1,
+      'oncelikli': 2,
+      'normal': 3
+    };
+
+    patients.sort((a, b) => {
+      const oncelikA = oncelikSiralama[a.oncelik] || 99;
+      const oncelikB = oncelikSiralama[b.oncelik] || 99;
+
+      if (oncelikA !== oncelikB) {
+        return oncelikA - oncelikB;
+      }
+      return new Date(a.kayitZamani) - new Date(b.kayitZamani);
+    });
+
+    waitingList.innerHTML = '';
+
+    if (patients.length > 0) {
+      patients.forEach((patient, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+                        <span class="patient-name">${patient.ad}</span>
+                        <span class="tc-info">(TC: ${patient.tc})</span>
+                        <span class="priority-info">[${patient.oncelik.toUpperCase()}]</span>
+                        <button class="call-specific-patient" data-index="${index}">Çağır</button>
+                    `;
+        waitingList.appendChild(li);
+      });
+    } else {
+      waitingList.innerHTML = '<li>Sırada bekleyen hasta yok.</li>';
+      currentPatientName.textContent = 'Bekleyen hasta yok.';
+      delete currentPatientName.dataset.patientId;
+    }
+  }
+
+  // Sayfa yüklendiğinde listeyi güncelle
+  updateWaitingList();
+
+  callNextPatientButton.addEventListener('click', function() {
+    if (patients.length > 0) {
+      processPatientCall(0);
+    } else {
+      currentPatientName.textContent = 'Sırada başka hasta kalmadı.';
+      delete currentPatientName.dataset.patientId;
+    }
+  });
+
+  waitingList.addEventListener('click', function(e) {
+    if (e.target.classList.contains('call-specific-patient')) {
+      const indexToCall = parseInt(e.target.dataset.index);
+      processPatientCall(indexToCall);
+    }
+  });
+
+  function processPatientCall(index) {
+    const patientToCall = patients[index];
+
+    patients.splice(index, 1);
+
+    localStorage.setItem('siradakiHastalar', JSON.stringify(patients));
+
+    let calledPatients = JSON.parse(localStorage.getItem('cagrilanHastalar')) || [];
+    calledPatients.push({ ...patientToCall, cagrildigiZaman: new Date().toISOString() }); // Çağrılma zamanı
+    localStorage.setItem('cagrilanHastalar', JSON.stringify(calledPatients));
+
+    currentPatientName.textContent = `Şu anki: ${patientToCall.ad} (TC: ${patientToCall.tc})`;
+    currentPatientName.dataset.patientId = patientToCall.tc;
+
+    updateWaitingList();
+
+    // localStorage'da değişiklik olduğunu diğer sayfalara bildir
+    window.dispatchEvent(new Event('storage'));
+  }
+
+  // localStorage'daki değişiklikleri dinle (diğer sekmelerle senkronizasyon için)
+  window.addEventListener('storage', function(e) {
+    // Sadece ilgili key değiştiğinde güncelle
+    if (e.key === 'siradakiHastalar' || e.key === 'cagrilanHastalar') {
+      updateWaitingList();
+    }
+  });
+</script>
+</body>
+</html>

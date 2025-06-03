@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasta Kayıt Ekranı</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Hasta Kayıt</h1>
+    <form id="hastaKayitForm">
+        <div class="form-group">
+            <label for="hastaAdi">Hasta Adı Soyadı:</label>
+            <input type="text" id="hastaAdi" name="hastaAdi" required>
+        </div>
+        <div class="form-group">
+            <label for="tcKimlik">TC Kimlik No:</label>
+            <input type="text" id="tcKimlik" name="tcKimlik" maxlength="11" required>
+        </div>
+        <div class="form-group">
+            <label for="oncelik">Öncelik Seviyesi:</label>
+            <select id="oncelik" name="oncelik">
+                <option value="normal">Normal</option>
+                <option value="acil">Acil</option>
+                <option value="oncelikli">Öncelikli</option>
+            </select>
+        </div>
+        <button type="submit">Sıraya Ekle</button>
+    </form>
+    <div class="message" id="message"></div>
+</div>
+
+<script>
+    document.getElementById('hastaKayitForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const hastaAdi = document.getElementById('hastaAdi').value;
+        const tcKimlik = document.getElementById('tcKimlik').value;
+        const oncelik = document.getElementById('oncelik').value;
+        const messageDiv = document.getElementById('message');
+
+        if (hastaAdi && tcKimlik) {
+            const yeniHasta = {
+                ad: hastaAdi,
+                tc: tcKimlik,
+                oncelik: oncelik,
+                kayitZamani: new Date().toISOString() // ISO formatı sıralama için daha iyi
+            };
+
+            let hastalar = JSON.parse(localStorage.getItem('siradakiHastalar')) || [];
+            hastalar.push(yeniHasta);
+            localStorage.setItem('siradakiHastalar', JSON.stringify(hastalar));
+
+            messageDiv.textContent = `${hastaAdi} (TC: ${tcKimlik}) sıraya eklendi! Öncelik: ${oncelik.toUpperCase()}`;
+            messageDiv.style.color = 'green';
+            document.getElementById('hastaKayitForm').reset();
+
+            // localStorage'da değişiklik olduğunu diğer sayfalara bildir
+            window.dispatchEvent(new Event('storage'));
+
+        } else {
+            messageDiv.textContent = 'Lütfen tüm alanları doldurun.';
+            messageDiv.style.color = 'red';
+        }
+    });
+</script>
+</body>
+</html>

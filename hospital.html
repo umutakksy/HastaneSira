@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hastane Sıra Ekranı</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Hastane ekranına özel ekstra stiller, bunlar style.css'e taşınabilir */
+    .hospital-display {
+      flex-direction: column; /* Dikey düzen */
+      max-width: 900px; /* Belirli bir genişlik */
+      align-items: center; /* Ortala */
+    }
+    .hospital-display .container {
+      max-width: 100%; /* Kısıtlamayı kaldır */
+      width: 100%;
+      margin-bottom: 25px; /* Sütunlar arasına boşluk */
+    }
+    .column {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+<div class="container hospital-display">
+  <div class="announcement-area" id="announcementArea">
+    <span id="announcementText"></span>
+  </div>
+
+  <div class="column">
+    <h2>Çağrılan Hastalar</h2>
+    <ul id="calledPatientsList">
+    </ul>
+  </div>
+
+  <div class="column">
+    <h2>Bekleyen Hastalar</h2>
+    <ul id="waitingPatientsList">
+    </ul>
+  </div>
+</div>
+
+<script>
+  const calledPatientsList = document.getElementById('calledPatientsList');
+  const waitingPatientsList = document.getElementById('waitingPatientsList');
+  const announcementArea = document.getElementById('announcementArea');
+  const announcementText = document.getElementById('announcementText');
+
+  let lastCalledPatientTc = null;
+  let announcementTimer = null; // Anonsun kaybolma zamanlayıcısı
+  let blinkingIntervals = []; // Yanıp sönen öğeleri durdurmak için
+
+  function updateHospitalDisplay() {
+    const waitingPatients = JSON.parse(localStorage.getItem('siradakiHastalar')) || [];
+    const calledPatients = JSON.parse(localStorage.getItem('cagrilanHastalar')) || [];
+
+    waitingPatientsList.innerHTML = '';
+    calledPatientsList.innerHTML = '';
+
+    // Önceki yanıp sönme interval'lerini temizle
+    blinkingIntervals.forEach(intervalId => clearInterval(intervalId));
+    blinkingIntervals = []; // Diziyi sıfırla
+
+    // Bekleyen hastaları listele
+    if (waitingPatients.length > 0) {
+      waitingPatients.forEach(patient => {
+        const li = document.createElement('li');
+        li.innerHTML = `<span class="waiting-patient-name">${patient.ad}</span> <span class="tc-info">(TC: ${patient.tc})</span>`;
+        waitingPatientsList.appendChild(li);
+      });
+    } else {
+      waitingPatientsList.innerHTML = '<li>Sırada bekleyen hasta yok.</li>';
+    }
+
+    // Çağrılan hastaları listele (son çağrılan üste gelsin diye ters çevir)
+    if (calledPatients.length > 0) {
+      const latestCalled = calledPatients[calledPatients.length - 1]; // En son çağrılan hasta
+      const displayCalled = calledPatients.slice(-10).reverse(); // Son 10 hastayı tersten göster
+
+      displayCalled.forEach((patient, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `<span class="called-patient-name">${patient.ad}</span> <span class="tc-info">(TC: ${patient.tc})</span>`;
+
+        // En son çağrılan hastaysa yanıp sönme efektini uygula
+        if (latestCalled && patient.tc === latestCalled.tc && patient.cagrildigiZaman === latestCalled.cagrildigiZaman) {
+          li.classList.add('highlight-blinking-li');
+        }
+        calledPatientsList.appendChild(li);
+      });
+
+      // ANONS VE YANIP SÖNME İŞLEVİ (SADECE ANONS ALANI İÇİN)
+      if (latestCalled && latestCalled.tc !== lastCalledPatientTc) {
+        // Eğer daha önce bir anons zamanlayıcısı varsa iptal et
+        if (announcementTimer) {
+          clearTimeout(announcementTimer);
+          announcementArea.classList.remove('show', 'blinking-text'); // Önceki durumları temizle
+          announcementText.textContent = '';
+        }
+
+        announcementText.innerHTML = `Lütfen <span class="announcement-name">${latestCalled.ad}</span> içeri girin!`;
+        announcementArea.classList.add('show', 'blinking-text'); // Hem görünür yap hem yanıp sönsün
+
+        // 3 saniye sonra anonsu ve yanıp sönmeyi durdur
+        announcementTimer = setTimeout(() => {
+          announcementArea.classList.remove('show', 'blinking-text');
+          announcementText.textContent = '';
+          announcementTimer = null; // Zamanlayıcıyı sıfırla
+        }, 3000); // 3 saniye sonra kaybolma
+
+        lastCalledPatientTc = latestCalled.tc;
+      }
+    } else {
+      calledPatientsList.innerHTML = '<li>Henüz çağrılan hasta yok.</li>';
+      lastCalledPatientTc = null;
+    }
+  }
+
+  // Sayfa yüklendiğinde listeyi güncelle
+  updateHospitalDisplay();
+
+  // localStorage'daki değişiklikleri dinle (F5'e gerek kalmadan güncellenme için)
+  window.addEventListener('storage', function(e) {
+    // Sadece ilgili key değiştiğinde güncelle
+    if (e.key === 'siradakiHastalar' || e.key === 'cagrilanHastalar') {
+      updateHospitalDisplay();
+    }
+  });
+</script>
+</body>
+</html>

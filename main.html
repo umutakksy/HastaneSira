@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sıra Yönetim Sistemi - Giriş</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Bu sayfaya özel stiller, style.css'e de taşınabilir */
+    .main-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+      margin-top: 50px;
+    }
+
+    .main-menu button {
+      width: 250px;
+      padding: 15px 25px;
+      font-size: 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .main-menu button:hover {
+      background-color: #45a049;
+    }
+
+    .main-menu button:nth-child(1) { background-color: #007bff; }
+    .main-menu button:nth-child(1):hover { background-color: #0056b3; }
+
+    .main-menu button:nth-child(2) { background-color: #dc3545; }
+    .main-menu button:nth-child(2):hover { background-color: #c82333; }
+
+    .main-menu button:nth-child(3) { background-color: #ffc107; color: #333;}
+    .main-menu button:nth-child(3):hover { background-color: #e0a800; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Sıra Yönetim Sistemi</h1>
+  <p>Lütfen ilgili ekrana giriş yapın:</p>
+  <div class="main-menu">
+    <button onclick="window.open('index.html', '_blank')">Sekreter Ekranı</button>
+    <button onclick="window.open('doctor.html', '_blank')">Doktor Ekranı</button>
+    <button onclick="window.open('hospital.html', '_blank')">Hastane Ekranı</button>
+  </div>
+</div>
+</body>
+</html>
